@@ -1,0 +1,14 @@
+{
+  "name": "game-timing",
+  "version": "1.0.0",
+  "description": "Game Timing/Loop Mechanism",
+  "main": "public/js/main.js",
+  "scripts": {
+    "start": "serve -p 5001 public"
+  },
+  "author": "Rumen Neshev",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^6.2.0"
+  }
+}
