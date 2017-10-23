@@ -1,13 +1,15 @@
 import createTimerBAD from './createTimerBAD.js'
+
 import createTimer from './createTimer.js'
+import Timer from './Timer.js'
 
 
 // I. usage of BAD timer (with undetermined rate)
-let timerBAD = createTimerBAD({
-    update: (deltaTime) => { console.log("Update called ", deltaTime) },
-    render: () => { console.log("Render called") }
+const timerBAD = createTimerBAD({
+    update: (deltaTime) => { console.log("BAD Update called ", deltaTime) },
+    render: () => { console.log("BAD Render called") }
 });
-// timerBAD.start();
+timerBAD.start();
 
 // The update/draw callbacks will not be called in fixed rate, e.g
 // sometimes the deltaTime can be 0.016, others 0.034,...
@@ -20,4 +22,12 @@ let timer = createTimer({
     render: () => { console.log("Render called") }
 }, 1 / 60);
 timer.start();
-// timer.stop();
+timer.stop();
+
+// using the class implementation
+const timer2 = new Timer({
+    update: (deltaTime) => { console.log("Update called ", deltaTime) },
+    render: () => { console.log("Render called") }
+}, 1 / 60);
+timer2.start();
+timer2.stop();
