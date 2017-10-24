@@ -12,7 +12,7 @@ export function createTimer(callbacks, rate = 1 / 60) {
     // (checks for collisions and etc.)
     function loop(time) {
         if (lastTime) {
-            accumulator += accumulator + (time - lastTime) / 1000;
+            accumulator += (time - lastTime) / 1000;
             while (accumulator > rate) {
                 callbacks.update(rate, tick++);
                 accumulator -= rate;
