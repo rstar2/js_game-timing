@@ -15,11 +15,11 @@ export default class Timer {
     // in order to get more realistic game simulation
     // Note - this does not mean that the rendering/drawing needs to be
     // with the same rate - THIS IS NOT NEEDED.
-    // Waht is needed is to have a deterministic game simulation
+    // What is needed is to have a deterministic game simulation
     // (checks for collisions and etc.)
     _loop(time) {
         if (this._lastTime) {
-            this._accumulator += this._accumulator + (time - this._lastTime) / 1000;
+            this._accumulator += (time - this._lastTime) / 1000;
             while (this._accumulator > this._rate) {
                 this._callbacks.update(this._rate, this._tick++);
                 this._accumulator -= this._rate;
