@@ -1,14 +1,15 @@
 export function createTimer(callbacks, rate = 1 / 60) {
     let lastTime = 0,
         accumulator = 0,
-        tick = 0, lastTick = 0,
+        tick = 0,
+        lastTick = 0,
         frameId;
 
     // thus we can set any desired rate
     // in order to get more realistic game simulation
     // Note - this does not mean that the rendering/drawing needs to be
     // with the same rate - THIS IS NOT NEEDED.
-    // Waht is needed is to have a deterministic game simulation
+    // What is needed is to have a deterministic game simulation
     // (checks for collisions and etc.)
     function loop(time) {
         if (lastTime) {
@@ -28,17 +29,30 @@ export function createTimer(callbacks, rate = 1 / 60) {
     }
 
     function start() {
-        lastTime = null;
-        frameId = requestAnimationFrame(loop);
+        if (!frameId) {
+            lastTime = 0;
+            accumulator = 0;
+            tick = 0;
+            lastTick = 0;
+            frameId = requestAnimationFrame(loop);
+        }
     }
 
     function stop() {
-        cancelAnimationFrame(frameId);
+        if (frameId) {
+            cancelAnimationFrame(frameId);
+            frameId = null;
+        }
+    }
+
+    function suspend() {
+        accumulator = 0;
     }
 
     return {
-        start: start,
-        stop: stop,
+        start,
+        stop,
+        suspend,
     };
 }
 
