@@ -1,8 +1,9 @@
 export default class Timer {
-    
-    constructor(callbacks, rate = 1 / 60) {
+
+    constructor(callbacks, rate = 1 / 60, renderOnUpdateOnly = true) {
         this._callbacks = callbacks;
         this._rate = rate;
+        this._renderOnUpdateOnly = renderOnUpdateOnly;
 
         this._lastTime = 0;
         this._accumulator = 0;
@@ -27,7 +28,8 @@ export default class Timer {
         }
         this._lastTime = time;
         // render only if at least once 'update' is called
-        if (this._lastTick !== this._tick) {
+        // or if render is desired to be called always (this._renderOnUpdateOnly is false)
+        if (!this._renderOnUpdateOnly || this._lastTick !== this._tick) {
             this._callbacks.render();
         }
         this._lastTick = this._tick;
@@ -35,12 +37,24 @@ export default class Timer {
     }
 
     start() {
-        this._lastTime = null;
-        this._frameId = requestAnimationFrame(this._loop.bind(this));
+        if (!this._frameId) {
+            this._lastTime = 0;
+            this._accumulator = 0;
+            this._tick = 0;
+            this._lastTick = 0;
+            this._frameId = requestAnimationFrame(this._loop.bind(this));
+        }
     }
 
     stop() {
-        cancelAnimationFrame(this._frameId);
+        if (this._frameId) {
+            cancelAnimationFrame(this._frameId);
+            this._frameId = null;
+        }
+    }
+
+    suspend() {
+        this._accumulator = 0;
     }
 
 }
